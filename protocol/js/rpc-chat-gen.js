@@ -692,7 +692,7 @@ export type OutboxErrorType =
 
 export type OutboxID = Bytes
 export type OutboxInfo = $ReadOnly<{prev: MessageID, composeTime: Gregor1.Time}>
-export type OutboxRecord = $ReadOnly<{state: OutboxState, outboxID: OutboxID, convID: ConversationID, ctime: Gregor1.Time, Msg: MessagePlaintext, identifyBehavior: Keybase1.TLFIdentifyBehavior, ordinal: Int}>
+export type OutboxRecord = $ReadOnly<{state: OutboxState, outboxID: OutboxID, convID: ConversationID, ctime: Gregor1.Time, Msg: MessagePlaintext, identifyBehavior: Keybase1.TLFIdentifyBehavior, ordinal: Int, preview?: ?MakePreviewRes}>
 export type OutboxState = {state: 0, sending: ?Int} | {state: 1, error: ?OutboxStateError}
 export type OutboxStateError = $ReadOnly<{message: String, typ: OutboxErrorType}>
 export type OutboxStateType =

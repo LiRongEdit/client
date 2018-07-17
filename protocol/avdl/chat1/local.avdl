@@ -233,6 +233,7 @@ protocol local {
     MessagePlaintext Msg;
     keybase1.TLFIdentifyBehavior identifyBehavior;
     int ordinal; // the position of this outbox record behind the clientPrev in Msg
+    union { null, MakePreviewRes } preview;
   }
 
   enum HeaderPlaintextVersion {

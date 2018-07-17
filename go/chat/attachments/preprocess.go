@@ -76,6 +76,23 @@ func (p *Preprocess) PreviewMetadata() chat1.AssetMetadata {
 	})
 }
 
+func (p *Preprocess) Export(getLocation func() *chat1.PreviewLocation) (res chat1.MakePreviewRes, err error) {
+	res = chat1.MakePreviewRes{
+		MimeType: p.ContentType,
+		Location: getLocation(),
+	}
+	md := p.PreviewMetadata()
+	var empty chat1.AssetMetadata
+	if md != empty {
+		res.Metadata = &md
+	}
+	baseMd := p.BaseMetadata()
+	if baseMd != empty {
+		res.BaseMetadata = &baseMd
+	}
+	return res, nil
+}
+
 func PreprocessAsset(ctx context.Context, log utils.DebugLabeler, filename string) (p Preprocess, err error) {
 	src, err := os.Open(filename)
 	if err != nil {

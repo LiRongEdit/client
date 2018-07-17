@@ -769,6 +769,13 @@
         {
           "type": "int",
           "name": "ordinal"
+        },
+        {
+          "type": [
+            null,
+            "MakePreviewRes"
+          ],
+          "name": "preview"
         }
       ]
     },

@@ -8,7 +8,6 @@ import (
 
 	"github.com/keybase/client/go/chat/globals"
 	"github.com/keybase/client/go/chat/s3"
-	"github.com/keybase/client/go/chat/storage"
 	"github.com/keybase/client/go/chat/types"
 	"github.com/keybase/client/go/chat/utils"
 	"github.com/keybase/client/go/libkb"
@@ -165,7 +164,7 @@ func (u *Uploader) upload(ctx context.Context, uid gregor1.UID, convID chat1.Con
 	if pre.Preview != nil {
 		u.Debug(ctx, "upload: created preview in preprocess")
 		// Store the preview in pending storage
-		if err := storage.NewPendingPreviews(u.G()).Put(ctx, outboxID, pre.Preview); err != nil {
+		if err := NewPendingPreviews(u.G()).Put(ctx, outboxID, pre); err != nil {
 			return res, err
 		}
 	}

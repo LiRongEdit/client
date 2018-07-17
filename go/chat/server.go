@@ -1433,29 +1433,15 @@ func (h *Server) MakePreview(ctx context.Context, arg chat1.MakePreviewArg) (res
 	if err != nil {
 		return chat1.MakePreviewRes{}, err
 	}
-
-	res = chat1.MakePreviewRes{
-		MimeType: pre.ContentType,
-	}
-
 	if pre.Preview != nil {
-		buf := pre.Preview
-		if err := storage.NewPendingPreviews(h.G()).Put(ctx, arg.OutboxID, buf); err != nil {
+		if err := attachments.NewPendingPreviews(h.G()).Put(ctx, arg.OutboxID, pre); err != nil {
 			return res, err
 		}
-		loc := chat1.NewPreviewLocationWithUrl(h.G().AttachmentURLSrv.GetPendingPreviewURL(ctx, arg.OutboxID))
-		res.Location = &loc
-
-		md := pre.PreviewMetadata()
-		var empty chat1.AssetMetadata
-		if md != empty {
-			res.Metadata = &md
-		}
-
-		baseMd := pre.BaseMetadata()
-		if baseMd != empty {
-			res.BaseMetadata = &baseMd
-		}
+		return pre.Export(func() *chat1.PreviewLocation {
+			loc := chat1.NewPreviewLocationWithUrl(h.G().AttachmentURLSrv.GetPendingPreviewURL(ctx,
+				arg.OutboxID))
+			return &loc
+		})
 	}
 
 	return res, nil

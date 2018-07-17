@@ -1426,6 +1426,7 @@ type OutboxRecord struct {
 	Msg              MessagePlaintext             `codec:"Msg" json:"Msg"`
 	IdentifyBehavior keybase1.TLFIdentifyBehavior `codec:"identifyBehavior" json:"identifyBehavior"`
 	Ordinal          int                          `codec:"ordinal" json:"ordinal"`
+	Preview          *MakePreviewRes              `codec:"preview,omitempty" json:"preview,omitempty"`
 }
 
 func (o OutboxRecord) DeepCopy() OutboxRecord {
@@ -1437,6 +1438,13 @@ func (o OutboxRecord) DeepCopy() OutboxRecord {
 		Msg:              o.Msg.DeepCopy(),
 		IdentifyBehavior: o.IdentifyBehavior.DeepCopy(),
 		Ordinal:          o.Ordinal,
+		Preview: (func(x *MakePreviewRes) *MakePreviewRes {
+			if x == nil {
+				return nil
+			}
+			tmp := (*x).DeepCopy()
+			return &tmp
+		})(o.Preview),
 	}
 }
 
